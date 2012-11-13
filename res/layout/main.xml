@@ -1,23 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent" 
     android:layout_height="match_parent"
+    android:id="@+id/main"
     >
     
-    <LinearLayout android:id="@+id/main" 
-        android:orientation="vertical"
-	    android:layout_width="match_parent" 
-	    android:layout_height="match_parent"
-	    >
-
-	    <include layout="@layout/title_bar" />
+	<include layout="@layout/title_bar" />
 	 
-	    <ImageView android:id="@+id/content"
-	        android:layout_width="match_parent" 
-		    android:layout_height="match_parent"
-	        android:src="@drawable/fun"
-			/>
+    <LinearLayout android:id="@+id/pager_titles" 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    
+	<android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 	
-	</LinearLayout>
-	
-</FrameLayout>
+</LinearLayout>
