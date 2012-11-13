@@ -1,4 +1,4 @@
-package com.sunlightfoundation.sitegeist;
+package com.sunlightfoundation.sitegeist.android;
 
 import android.app.Activity;
 import android.os.Bundle;
