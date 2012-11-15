@@ -41,6 +41,7 @@ public class TitlePageAdapter extends FragmentPagerAdapter {
         
         pager.setAdapter(this);
         pager.setOnPageChangeListener(new TitlePageListener(this));
+        pager.setOffscreenPageLimit(5);
         
         mainView = (ViewGroup) activity.findViewById(R.id.pager_titles);
     }

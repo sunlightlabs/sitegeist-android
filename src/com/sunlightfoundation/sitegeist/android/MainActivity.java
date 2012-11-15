@@ -40,11 +40,11 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     private void setupPager() {
 		TitlePageAdapter adapter = new TitlePageAdapter(this);
 		
-		adapter.add("census", "People", WebFragment.newInstance(R.drawable.census));
-		adapter.add("environment", "Env", WebFragment.newInstance(R.drawable.environment));
-		adapter.add("fun", "Fun", WebFragment.newInstance(R.drawable.fun));
-		adapter.add("history", "History", WebFragment.newInstance(R.drawable.history));
-		adapter.add("housing", "Housing", WebFragment.newInstance(R.drawable.housing));
+		adapter.add("people", "People", WebFragment.newInstance("people"));
+		adapter.add("environment", "Env", WebFragment.newInstance("environment"));
+		adapter.add("fun", "Fun", WebFragment.newInstance("fun"));
+		adapter.add("history", "History", WebFragment.newInstance("history"));
+		adapter.add("housing", "Housing", WebFragment.newInstance("housing"));
     }
     
     @Override 
@@ -68,15 +68,14 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		}
 	}
 	
-	
 	public static class WebFragment extends Fragment {
 		
-		int mockId;
+		String tab;
 		
-		public static WebFragment newInstance(int mockId) {
+		public static WebFragment newInstance(String tab) {
 			WebFragment frag = new WebFragment();
 			Bundle args = new Bundle();
-			args.putInt("mock_id", mockId);
+			args.putString("tab", tab);
 			frag.setArguments(args);
 			frag.setRetainInstance(true);
 			return frag;
@@ -87,20 +86,23 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			mockId = getArguments().getInt("mock_id");
+			tab = getArguments().getString("tab");
 		}
 		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.inflate(R.layout.webview_fragment, container, false);
-			ImageView content = (ImageView) view.findViewById(R.id.content);
-			content.setImageResource(mockId);
+			Utils.loadUrl(Utils.webViewFor(view), url());
 			return view;
 		}
 		
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
+		}
+		
+		public String url() {
+			return "http://ec2-23-22-182-132.compute-1.amazonaws.com:8080/api/" + tab + "/?header=0";
 		}
 	}
 }

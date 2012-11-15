@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.sunlightfoundation.sitegeist.android.R;
@@ -17,12 +18,12 @@ public class Utils {
 	public static final String TAG = "Sitegeist";
 	public static final String USER_AGENT = "com.sunlightfoundation.sitegeist.android";
 	
-//	@SuppressLint("SetJavaScriptEnabled")
-//	public static WebView webViewFor(final Activity activity) {
-//		WebView results = (WebView) activity.findViewById(R.id.content);
-//		results.getSettings().setJavaScriptEnabled(true);
-//		return results;
-//	}
+	@SuppressLint("SetJavaScriptEnabled")
+	public static WebView webViewFor(final View view) {
+		WebView results = (WebView) view.findViewById(R.id.content);
+		results.getSettings().setJavaScriptEnabled(true);
+		return results;
+	}
 	
 	public static void loadUrl(WebView webview, String url) {
 		Map<String,String> headers = new HashMap<String,String>();
