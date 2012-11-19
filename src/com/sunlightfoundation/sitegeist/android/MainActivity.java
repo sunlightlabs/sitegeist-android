@@ -1,18 +1,23 @@
 package com.sunlightfoundation.sitegeist.android;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.sunlightfoundation.sitegeist.android.utils.ActionBarUtils;
-import com.sunlightfoundation.sitegeist.android.utils.TitlePageAdapter;
 import com.sunlightfoundation.sitegeist.android.utils.Utils;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
 
@@ -38,13 +43,19 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     }
     
     private void setupPager() {
-		TitlePageAdapter adapter = new TitlePageAdapter(this);
+    	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
+		adapter.add("PEOPLE", WebFragment.newInstance("people"));
+		adapter.add("ENVIRONMENT", WebFragment.newInstance("environment"));
+		adapter.add("FUN", WebFragment.newInstance("fun"));
+		adapter.add("HISTORY", WebFragment.newInstance("history"));
+		adapter.add("HOUSING", WebFragment.newInstance("housing"));
 		
-		adapter.add("people", "People", WebFragment.newInstance("people"));
-		adapter.add("environment", "Env", WebFragment.newInstance("environment"));
-		adapter.add("fun", "Fun", WebFragment.newInstance("fun"));
-		adapter.add("history", "History", WebFragment.newInstance("history"));
-		adapter.add("housing", "Housing", WebFragment.newInstance("housing"));
+		ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager.setOffscreenPageLimit(5);
+		pager.setAdapter(adapter);
+		
+		TabPageIndicator titleIndicator = (TabPageIndicator)findViewById(R.id.titles);
+    	titleIndicator.setViewPager(pager);
     }
     
     @Override 
@@ -70,7 +81,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	
 	public static class WebFragment extends Fragment {
 		
-		String tab;
+		private String tab;
 		
 		public static WebFragment newInstance(String tab) {
 			WebFragment frag = new WebFragment();
@@ -91,18 +102,50 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.webview_fragment, container, false);
-			Utils.loadUrl(Utils.webViewFor(view), url());
-			return view;
+			return inflater.inflate(R.layout.webview_fragment, container, false);
 		}
 		
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
+			loadSite();
+		}
+		
+		public void loadSite() {
+			Utils.loadUrl(Utils.webViewFor(getView()), url());
 		}
 		
 		public String url() {
-			return "http://ec2-23-22-182-132.compute-1.amazonaws.com:8080/api/" + tab + "/?header=0";
+			return "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
 		}
+	}
+	
+	public class BasicAdapter extends FragmentPagerAdapter {
+		private List<WebFragment> fragments = new ArrayList<WebFragment>();
+		private List<String> names = new ArrayList<String>();
+		
+		public BasicAdapter(FragmentManager manager) {
+	        super(manager);
+	    }
+		
+		public void add(String title, WebFragment fragment) {
+			fragments.add(fragment);
+			names.add(title);
+		}
+
+	    @Override
+	    public int getCount() {
+	        return fragments.size();
+	    }
+
+	    @Override
+	    public Fragment getItem(int position) {
+	        return fragments.get(position);
+	    }
+	    
+	    @Override
+        public CharSequence getPageTitle(int position) {
+            return names.get(position);
+        }
 	}
 }
