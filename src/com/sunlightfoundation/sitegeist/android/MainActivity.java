@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.sunlightfoundation.sitegeist.android.utils.ActionBarUtils;
 import com.sunlightfoundation.sitegeist.android.utils.Utils;
+import com.sunlightfoundation.sitegeist.android.utils.FragmentUtils;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
@@ -39,10 +40,21 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 			}
 		});
 		
+		ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.about, new View.OnClickListener() {
+			public void onClick(View v) {
+				showAbout();
+			}
+			
+		});
+		
 		ActionBarUtils.setActionMenu(this, R.menu.main);
     }
     
-    private void setupPager() {
+    public void showAbout() {
+		FragmentUtils.alertDialog(this, AlertFragment.ABOUT);		
+	}
+
+	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
 		adapter.add("PEOPLE", WebFragment.newInstance("people"));
 		adapter.add("ENVIRONMENT", WebFragment.newInstance("environment"));

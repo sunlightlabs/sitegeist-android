@@ -3,6 +3,7 @@
     <string name="package_name">com.sunlightfoundation.sitegeist.android</string>
     
     <string name="menu_review">Review us</string>
+    <string name="about_button">Okay!</string>
     
     <string name="contact_email">sitegeist+android@sunlightfoundation.com</string>
     <string name="contact_subject">Sitegeist feedback</string>
