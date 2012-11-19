@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    >
+    
+	<include layout="@layout/title_bar" />
+	 
+    <com.google.android.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:apiKey="@string/google_maps_api_key"
+        
+        android:enabled="true"
+        android:clickable="true"
+        />
+    
+    <TextView android:id="@+id/debug"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        />
+    
+</LinearLayout>
