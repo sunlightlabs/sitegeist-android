@@ -6,7 +6,10 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.view.View;
 import android.webkit.WebView;
@@ -45,5 +48,27 @@ public class Utils {
 		} catch(ActivityNotFoundException e) {
 			// swallow
 		}
+	}
+	
+	public static boolean locationEnabled(Context context) {
+		LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER); 
+	}
+	
+	public static Location lastKnownLocation(Context context) {
+		LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		Location location = null;
+		
+		String provider = LocationManager.GPS_PROVIDER;
+		if (manager.isProviderEnabled(provider))
+			location = manager.getLastKnownLocation(provider);
+
+		if (location == null) {
+			provider = LocationManager.NETWORK_PROVIDER;
+			if (manager.isProviderEnabled(provider))
+				location = manager.getLastKnownLocation(provider);
+		}
+		
+		return location;
 	}
 }

@@ -4,6 +4,7 @@
     
     <string name="menu_review">Review us</string>
     <string name="about_button">Okay!</string>
+    <string name="menu_location">Locate</string>
     
     <string name="contact_email">sitegeist+android@sunlightfoundation.com</string>
     <string name="contact_subject">Sitegeist feedback</string>

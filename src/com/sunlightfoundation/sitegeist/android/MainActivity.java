@@ -3,7 +3,11 @@ package com.sunlightfoundation.sitegeist.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +25,11 @@ import com.sunlightfoundation.sitegeist.android.utils.FragmentUtils;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
+	public double lat = 0, lng = 0;
+	
+	public static int RESPONSE_LOCATION = 1;
+	public static int LOCATION_YES = 1;
+	public static int LOCATION_NO = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +37,41 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         setContentView(R.layout.main);
         
         setupControls();
-        setupPager();
+        getLocation();
+    }
+    
+    private void getLocation() {
+    	if (quickGetLocation())
+    		setupPager();
+    	else
+    		findLocation();
+    }
+    
+    private boolean quickGetLocation() {
+    	Location location = Utils.lastKnownLocation(this);
+    	if (location != null) {
+    		lat = location.getLatitude();
+    		lng = location.getLongitude();
+    		return true;
+    	} else
+    		return false;
+    }
+    
+    private void findLocation() {
+    	this.startActivityForResult(new Intent(this, FindLocation.class), RESPONSE_LOCATION);
+    }
+    
+    private void onFindLocation(double lat, double lng) {
+    	
+    }
+    
+    private void onFindLocation() {
+    	
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (requestCode != RESPONSE_LOCATION) return;
     }
     
     public void setupControls() {
@@ -88,6 +131,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		switch(item.getItemId()) { 
 		case R.id.review:
 			Utils.goReview(this);
+		case R.id.location:
+			findLocation();
 		}
 	}
 	
@@ -128,7 +173,11 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		}
 		
 		public String url() {
-			return "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
+			String url = "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity.lat != 0 || activity.lng != 0)
+				url += "&cll=" + activity.lat + "," + activity.lng;
+			return url;
 		}
 	}
 	
@@ -143,6 +192,11 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		public void add(String title, WebFragment fragment) {
 			fragments.add(fragment);
 			names.add(title);
+		}
+		
+		public void updateAll() {
+			for (int i=0; i<fragments.size(); i++)
+				fragments.get(i).loadSite();
 		}
 
 	    @Override
@@ -159,5 +213,38 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         public CharSequence getPageTitle(int position) {
             return names.get(position);
         }
+	}
+	
+	static class LocationAlertFragment extends DialogFragment {
+		
+		public static LocationAlertFragment create(int type) {
+			LocationAlertFragment fragment = new LocationAlertFragment();
+			fragment.setRetainInstance(true);
+			return fragment;
+		}
+		
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			
+//			View aboutView = inflater.inflate(R.layout.about, null);
+//			
+//			return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
+//					.setView(aboutView)
+//					.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							getActivity().finish();
+//						}
+//					})
+//					.setPositiveButton("Go to Location Settings", new DialogInterface.OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							getActivity().startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+//						}
+//					})
+//					.create();
+			return null;
+		}
 	}
 }
