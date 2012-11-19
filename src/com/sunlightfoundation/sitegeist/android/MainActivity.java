@@ -3,8 +3,10 @@ package com.sunlightfoundation.sitegeist.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +29,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
         
         setupControls();
         setupPager();
@@ -129,9 +132,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		public String url() {
 			String url = "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
 			MainActivity activity = (MainActivity) getActivity();
-			if (activity.lat != 0 || activity.lng != 0) {
+			if (activity.lat != 0 || activity.lng != 0)
 				url += "&cll=" + activity.lat + "," + activity.lng;
-			}
 			return url;
 		}
 	}
@@ -148,6 +150,11 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 			fragments.add(fragment);
 			names.add(title);
 		}
+		
+		public void updateAll() {
+			for (int i=0; i<fragments.size(); i++)
+				fragments.get(i).loadSite();
+		}
 
 	    @Override
 	    public int getCount() {
@@ -163,5 +170,38 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         public CharSequence getPageTitle(int position) {
             return names.get(position);
         }
+	}
+	
+	static class LocationAlertFragment extends DialogFragment {
+		
+		public static LocationAlertFragment create(int type) {
+			LocationAlertFragment fragment = new LocationAlertFragment();
+			fragment.setRetainInstance(true);
+			return fragment;
+		}
+		
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			
+//			View aboutView = inflater.inflate(R.layout.about, null);
+//			
+//			return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
+//					.setView(aboutView)
+//					.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							getActivity().finish();
+//						}
+//					})
+//					.setPositiveButton("Go to Location Settings", new DialogInterface.OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							getActivity().startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+//						}
+//					})
+//					.create();
+			return null;
+		}
 	}
 }

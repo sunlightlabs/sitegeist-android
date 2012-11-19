@@ -51,7 +51,8 @@ public class Utils {
 	}
 	
 	public static boolean locationEnabled(Context context) {
-		return true;
+		LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER); 
 	}
 	
 	public static Location lastKnownLocation(Context context) {
