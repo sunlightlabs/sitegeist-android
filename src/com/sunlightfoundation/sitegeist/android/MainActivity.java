@@ -3,6 +3,7 @@ package com.sunlightfoundation.sitegeist.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import com.sunlightfoundation.sitegeist.android.utils.Utils;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
+	public double lat = 0, lng = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,15 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         
         setupControls();
         setupPager();
+        getLocation();
+    }
+    
+    private void getLocation() {
+    	Location location = Utils.lastKnownLocation(this);
+    	if (location != null) {
+    		lat = location.getLatitude();
+    		lng = location.getLongitude();
+    	}
     }
     
     public void setupControls() {
@@ -116,7 +127,12 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		}
 		
 		public String url() {
-			return "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
+			String url = "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity.lat != 0 || activity.lng != 0) {
+				url += "&cll=" + activity.lat + "," + activity.lng;
+			}
+			return url;
 		}
 	}
 	
