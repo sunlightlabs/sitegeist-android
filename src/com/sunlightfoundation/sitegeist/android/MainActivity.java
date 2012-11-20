@@ -84,11 +84,10 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     	String sourceName = source == SOURCE_NEARBY ? "Nearby" : "Saved";
     	ActionBarUtils.setTitle(this, getResources().getString(R.string.app_name) + " - " + sourceName, null);
 		
-		ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.about, new View.OnClickListener() {
+    	ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.location, new View.OnClickListener() {
 			public void onClick(View v) {
-				showAbout();
+				findLocation();
 			}
-
 		});
 		
 		ActionBarUtils.setActionMenu(this, R.menu.main);
@@ -142,8 +141,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		case R.id.review:
 			Utils.goReview(this);
 			break;
-		case R.id.location:
-			findLocation();
+		case R.id.about:
+			showAbout();
 			break;
 		}
 	}
