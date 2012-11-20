@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/location"
-        android:title="@string/menu_location"
-        android:icon="@drawable/location"
-        />
     <item android:id="@+id/feedback"
         android:title="@string/menu_feedback"
         android:icon="@drawable/feedback"
@@ -12,4 +8,8 @@
 		android:title="@string/menu_review"
 		android:icon="@android:drawable/ic_menu_share"
 		/>
+	<item android:id="@+id/about"
+        android:title="@string/menu_about"
+        android:icon="@drawable/about"
+        />
 </menu>

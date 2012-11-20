@@ -10,7 +10,7 @@
     
     <string name="menu_feedback">Feedback</string>
     <string name="menu_review">Review us</string>
-    <string name="menu_location">Locate</string>
+    <string name="menu_about">About</string>
     
     <string name="contact_email">sitegeist+android@sunlightfoundation.com</string>
     <string name="contact_subject">Sitegeist feedback</string>
