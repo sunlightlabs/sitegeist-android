@@ -2,6 +2,9 @@
     <string name="app_name">Sitegeist</string>
     <string name="package_name">com.sunlightfoundation.sitegeist.android</string>
     
+    <string name="about_button">Okay!</string>
+    
+    <string name="menu_feedback">Feedback</string>
     <string name="menu_review">Review us</string>
     <string name="menu_location">Locate</string>
     

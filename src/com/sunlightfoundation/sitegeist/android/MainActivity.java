@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import com.sunlightfoundation.sitegeist.android.utils.ActionBarUtils;
 import com.sunlightfoundation.sitegeist.android.utils.Utils;
+import com.sunlightfoundation.sitegeist.android.utils.FragmentUtils;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
@@ -76,16 +77,21 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     public void setupControls() {
     	ActionBarUtils.setTitle(this, R.string.app_name, null);
 		
-		ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.feedback, new View.OnClickListener() {
-			public void onClick(View v) { 
-				Utils.doFeedback(MainActivity.this);
+		ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.about, new View.OnClickListener() {
+			public void onClick(View v) {
+				showAbout();
 			}
+			
 		});
 		
 		ActionBarUtils.setActionMenu(this, R.menu.main);
     }
     
-    private void setupPager() {
+    public void showAbout() {
+		FragmentUtils.alertDialog(this, AlertFragment.ABOUT);		
+	}
+
+	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
 		adapter.add("PEOPLE", WebFragment.newInstance("people"));
 		adapter.add("ENVIRONMENT", WebFragment.newInstance("environment"));
@@ -117,10 +123,15 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	@Override
 	public void menuSelected(MenuItem item) {
 		switch(item.getItemId()) { 
+		case R.id.feedback:
+			Utils.doFeedback(this);
+			break;
 		case R.id.review:
 			Utils.goReview(this);
+			break;
 		case R.id.location:
 			findLocation();
+			break;
 		}
 	}
 	
