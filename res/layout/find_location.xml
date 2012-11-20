@@ -7,16 +7,54 @@
     
 	<include layout="@layout/title_bar" />
 	 
-    <com.sunlightfoundation.sitegeist.android.MyMapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
+	<FrameLayout 
+	    android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:apiKey="@string/google_maps_api_key"
-        
-        android:enabled="true"
-        android:clickable="true"
-        />
+	    android:layout_weight="1"
+	    >
+	    <com.sunlightfoundation.sitegeist.android.MyMapView
+	        android:id="@+id/map"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        
+	        android:apiKey="@string/google_maps_api_key"
+	        
+	        android:enabled="true"
+	        android:clickable="true"
+	        />
+	    
+	    
+	    <FrameLayout
+	        android:layout_width="42dp"
+	    	android:layout_height="42dp"
+	    	android:background="#aa888888"
+	    	
+	    	android:layout_gravity="top|right"
+	    	android:layout_marginTop="20dp"
+	    	android:layout_marginRight="20dp"
+	    	> 
+		    <FrameLayout
+		        android:background="#aadddddd"
+		        android:layout_width="40dp"
+		    	android:layout_height="40dp"
+		    	android:layout_gravity="center"
+		    	>
+			    <FrameLayout android:id="@+id/center"
+			        android:layout_width="match_parent"
+			    	android:layout_height="match_parent"
+			        style="@style/Pressable"
+			        
+			        >
+			        <ImageView
+			    	    android:layout_width="32dp"
+			    	    android:layout_height="32dp"
+			    	    android:layout_gravity="center"
+			    	    android:src="@drawable/center"
+			    	    />
+		    	</FrameLayout>
+	    	</FrameLayout>
+    	</FrameLayout>
+    </FrameLayout>
     
     <TextView android:id="@+id/debug_current"
         android:layout_weight="0"

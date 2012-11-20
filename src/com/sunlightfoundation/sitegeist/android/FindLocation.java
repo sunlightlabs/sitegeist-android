@@ -8,7 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.GestureDetector;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
@@ -42,6 +43,16 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	private void setupControls() {
 		debugChosen = (TextView) findViewById(R.id.debug_chosen);
 	    debugCurrent = (TextView) findViewById(R.id.debug_current);
+	    
+	    findViewById(R.id.center).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				GeoPoint myLocation = location.getMyLocation();
+				controller.animateTo(myLocation);
+				debugCurrent.setText(myLocation.toString());
+				selected(myLocation);
+			}
+		});
 	}
 	
 	private void setupMap() {
@@ -59,7 +70,6 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	    overlays.add(location);
 	    overlays.add(selected);
 	}
-	
 	
 	
 	@Override
