@@ -8,12 +8,16 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
 import com.sunlightfoundation.sitegeist.android.R;
 
 
@@ -55,7 +59,7 @@ public class Utils {
 		return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER); 
 	}
 	
-	public static Location lastKnownLocation(Context context) {
+	public static GeoPoint lastKnownLocation(Context context) {
 		LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		Location location = null;
 		
@@ -69,6 +73,37 @@ public class Utils {
 				location = manager.getLastKnownLocation(provider);
 		}
 		
-		return location;
+		if (location != null)
+			return new GeoPoint(locToGeo(location.getLatitude()), locToGeo(location.getLongitude()));
+		else
+			return null;
+	}
+	
+	public static boolean saveLocation(Context context, GeoPoint point) {
+		return PreferenceManager.getDefaultSharedPreferences(context).edit()
+				.putBoolean("savedLocation", true)
+				.putInt("lat", point.getLatitudeE6())
+				.putInt("lng", point.getLongitudeE6())
+				.commit();
+	}
+	
+	public static GeoPoint savedLocation(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if (prefs.getBoolean("savedLocation", false))
+			return new GeoPoint(prefs.getInt("lat", 0), prefs.getInt("lng", 0));
+		else
+			return null;
+	}
+	
+	public static int locToGeo(double degrees) {
+		return (int) (degrees * 1E6);
+	}
+	
+	public static double geoToLoc(int degreesE6) {
+		return (double) (((double) degreesE6) / 1E6);
+	}
+	
+	public static void alert(Context context, int msg) {
+		Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 	}
 }

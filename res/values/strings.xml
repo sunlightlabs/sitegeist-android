@@ -7,6 +7,7 @@
     <string name="title_location">Choose a Location</string>
     <string name="location_advice">Zoom and tap to move the marker.</string>
     <string name="use_location">Use This Location</string>
+    <string name="enable_location">Your phone\'s settings currently do not allow access to your location.</string>
     
     <string name="menu_feedback">Feedback</string>
     <string name="menu_review">Review us</string>

@@ -2,12 +2,10 @@ package com.sunlightfoundation.sitegeist.android;
 
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 
@@ -40,17 +38,28 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
     }
 	
 	private void setupControls() {
-		
-		ActionBarUtils.setTitle(this, R.string.title_location);
-		ActionBarUtils.setTitleButton(this, new Intent(this, MainActivity.class));
+		ActionBarUtils.setTitle(this, R.string.title_location, null);
 	    
 	    findViewById(R.id.center).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (location != null && controller != null) {
 					GeoPoint myLocation = location.getMyLocation();
-					controller.animateTo(myLocation);
-					selected(myLocation);
+					if (myLocation != null) {
+						controller.animateTo(myLocation);
+						selected(myLocation);
+					} else
+						Utils.alert(FindLocation.this, R.string.enable_location);
+				}
+			}
+		});
+	    
+	    findViewById(R.id.use_location).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (selectedPoint != null) {
+					Utils.saveLocation(FindLocation.this, selectedPoint);
+					finish();
 				}
 			}
 		});
@@ -66,6 +75,8 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	    initialCenter();
 	    location = new MyLocationOverlay(this, map);
 	    selected = new SelectedOverlay(this);
+	    
+
 	    
 	    List<Overlay> overlays = map.getOverlays();
 	    overlays.add(location);
@@ -98,23 +109,13 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	}
 	
 	private void initialCenter() {
-		GeoPoint center = quickGetLocation();
+		GeoPoint center = Utils.lastKnownLocation(this);
 	    if (center != null) {
 	    	controller.setZoom(15);
 			controller.setCenter(center);
 	    } else
 	    	controller.setZoom(4);
 	}
-	
-	private GeoPoint quickGetLocation() {
-    	Location location = Utils.lastKnownLocation(this);
-    	if (location != null) {
-    		int lat = (int) (location.getLatitude() * 1000000);
-    		int lng = (int) (location.getLongitude() * 1000000);
-    		return new GeoPoint(lat, lng);
-    	}
-    	return null;
-    }
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -138,7 +139,7 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	            mapView.getProjection().toPixels(context.selectedPoint, screenPts);
  
 	            Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);            
-	            canvas.drawBitmap(bmp, screenPts.x - 43, screenPts.y-63, null);         
+	            canvas.drawBitmap(bmp, screenPts.x-40, screenPts.y-63, null);         
             }
             return true;
         }

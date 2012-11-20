@@ -3,11 +3,8 @@ package com.sunlightfoundation.sitegeist.android;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,68 +16,79 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.maps.GeoPoint;
 import com.sunlightfoundation.sitegeist.android.utils.ActionBarUtils;
-import com.sunlightfoundation.sitegeist.android.utils.Utils;
 import com.sunlightfoundation.sitegeist.android.utils.FragmentUtils;
+import com.sunlightfoundation.sitegeist.android.utils.Utils;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
-	public double lat = 0, lng = 0;
+	public GeoPoint location;
+	private int source;
 	
-	public static int RESPONSE_LOCATION = 1;
-	public static int LOCATION_YES = 1;
-	public static int LOCATION_NO = 2;
+	private static int SOURCE_SAVED = 1;
+	private static int SOURCE_NEARBY = 2;
+	
+	private static int RESPONSE_LOCATION = 1;
+	
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        setupControls();
-        setupPager();
-        getLocation();
+        if (hasLocation())
+        	haveLocation();
+        else
+        	findLocation();
     }
     
-    private void getLocation() {
-    	if (!quickGetLocation())
-    		findLocation();
-    }
     
-    private boolean quickGetLocation() {
-    	Location location = Utils.lastKnownLocation(this);
-    	if (location != null) {
-    		lat = location.getLatitude();
-    		lng = location.getLongitude();
+    private boolean hasLocation() {
+    	GeoPoint savedLocation = Utils.savedLocation(this);
+    	if (savedLocation != null) {
+    		this.source = SOURCE_SAVED;
+    		this.location = savedLocation;
     		return true;
-    	} else
-    		return false;
+    	} else {
+    		GeoPoint lastLocation = Utils.lastKnownLocation(this);
+    		if (lastLocation != null) {
+    			this.source = SOURCE_NEARBY;
+    			this.location = lastLocation;
+        		return true;
+    		}
+    	}
+    	
+    	return false;
     }
     
     private void findLocation() {
     	this.startActivityForResult(new Intent(this, FindLocation.class), RESPONSE_LOCATION);
     }
     
-    private void onFindLocation(double lat, double lng) {
-    	
-    }
-    
     private void onFindLocation() {
-    	
+    	if (hasLocation())
+    		haveLocation();
+    	else
+    		finish(); // just leave
     }
     
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	if (requestCode != RESPONSE_LOCATION) return;
+    // set up the pager and load the web views
+    private void haveLocation() {
+    	setupControls();
+    	setupPager();
     }
     
+    // will only be run if we have a location, and a source
     public void setupControls() {
-    	ActionBarUtils.setTitle(this, R.string.app_name, null);
+    	String sourceName = source == SOURCE_NEARBY ? "Nearby" : "Saved";
+    	ActionBarUtils.setTitle(this, getResources().getString(R.string.app_name) + " - " + sourceName, null);
 		
 		ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.about, new View.OnClickListener() {
 			public void onClick(View v) {
 				showAbout();
 			}
-			
+
 		});
 		
 		ActionBarUtils.setActionMenu(this, R.menu.main);
@@ -104,6 +112,12 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		
 		TabPageIndicator titleIndicator = (TabPageIndicator) findViewById(R.id.titles);
     	titleIndicator.setViewPager(pager);
+    }
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (requestCode != RESPONSE_LOCATION) return;
+    	onFindLocation();
     }
     
     @Override 
@@ -173,8 +187,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		public String url() {
 			String url = "http://sitegeist.sunlightfoundation.com/api/" + tab + "/?header=0";
 			MainActivity activity = (MainActivity) getActivity();
-			if (activity.lat != 0 || activity.lng != 0)
-				url += "&cll=" + activity.lat + "," + activity.lng;
+			if (activity.location != null)
+				url += "&cll=" + Utils.geoToLoc(activity.location.getLatitudeE6()) + "," + Utils.geoToLoc(activity.location.getLongitudeE6());
 			return url;
 		}
 	}
@@ -211,38 +225,5 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         public CharSequence getPageTitle(int position) {
             return names.get(position);
         }
-	}
-	
-	static class LocationAlertFragment extends DialogFragment {
-		
-		public static LocationAlertFragment create(int type) {
-			LocationAlertFragment fragment = new LocationAlertFragment();
-			fragment.setRetainInstance(true);
-			return fragment;
-		}
-		
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			
-//			View aboutView = inflater.inflate(R.layout.about, null);
-//			
-//			return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
-//					.setView(aboutView)
-//					.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							getActivity().finish();
-//						}
-//					})
-//					.setPositiveButton("Go to Location Settings", new DialogInterface.OnClickListener() {
-//						@Override
-//						public void onClick(DialogInterface dialog, int which) {
-//							getActivity().startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-//						}
-//					})
-//					.create();
-			return null;
-		}
 	}
 }
