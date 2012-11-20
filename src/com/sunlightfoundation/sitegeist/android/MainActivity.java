@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		}
 		
 		public String url() {
-			String url = "http://ec2-23-22-182-132.compute-1.amazonaws.com/api/" + tab + "/?header=0";
+			String url = "http://sitegeist.sunlightfoundation.com/api/" + tab + "/?header=0";
 			MainActivity activity = (MainActivity) getActivity();
 			if (activity.lat != 0 || activity.lng != 0)
 				url += "&cll=" + activity.lat + "," + activity.lng;
