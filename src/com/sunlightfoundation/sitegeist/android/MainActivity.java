@@ -37,13 +37,12 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
         setContentView(R.layout.main);
         
         setupControls();
+        setupPager();
         getLocation();
     }
     
     private void getLocation() {
-    	if (quickGetLocation())
-    		setupPager();
-    	else
+    	if (!quickGetLocation())
     		findLocation();
     }
     
@@ -103,7 +102,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		pager.setOffscreenPageLimit(5);
 		pager.setAdapter(adapter);
 		
-		TabPageIndicator titleIndicator = (TabPageIndicator)findViewById(R.id.titles);
+		TabPageIndicator titleIndicator = (TabPageIndicator) findViewById(R.id.titles);
     	titleIndicator.setViewPager(pager);
     }
     
