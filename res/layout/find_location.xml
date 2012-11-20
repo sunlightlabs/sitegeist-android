@@ -56,18 +56,30 @@
     	</FrameLayout>
     </FrameLayout>
     
-    <TextView android:id="@+id/debug_current"
-        android:layout_weight="0"
-        android:layout_width="match_parent"
+	<RelativeLayout android:orientation="horizontal"
+	    android:layout_weight="0"
+	    android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        />
-   	
-    <TextView android:id="@+id/debug_chosen"
-        android:layout_weight="0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        />
+        >
+	    
+	    <Button android:id="@+id/use_location"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:textSize="16sp"
+	        android:text="@string/use_location"
+	        />
+	    
+	    <TextView android:id="@+id/advice"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@id/use_location"
+	        android:padding="5dp"
+	        android:gravity="center"
+	        android:textSize="14sp"
+	        android:text="@string/location_advice"
+	        />
+	    
+	</RelativeLayout>
     
 </LinearLayout>
