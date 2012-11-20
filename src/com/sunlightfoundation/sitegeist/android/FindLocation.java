@@ -16,7 +16,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.sunlightfoundation.sitegeist.android.utils.Utils;
 
-public class FindLocation extends MapActivity {
+public class FindLocation extends MapActivity implements MyMapView.MapTapListener {
 
 	private MyMapView map;
 	private MapController controller;
@@ -35,6 +35,8 @@ public class FindLocation extends MapActivity {
 	
 	private void setupControls() {
 		map = (MyMapView) findViewById(R.id.map);
+		map.setMapTapListener(this);
+		
 		controller = map.getController();
 	    map.setBuiltInZoomControls(true);
 	    
@@ -43,29 +45,6 @@ public class FindLocation extends MapActivity {
 	    
 	    initialCenter();
 	    location = new MyLocationOverlay(this, map);
-	    
-	    GestureDetector.SimpleOnGestureListener listener = new GestureDetector.SimpleOnGestureListener();
-	    GestureDetector.OnDoubleTapListener gestures = new GestureDetector.OnDoubleTapListener() {
-			@Override
-			public boolean onSingleTapConfirmed(MotionEvent e) {
-				selected(map.getProjection().fromPixels((int) e.getX(), (int) e.getY()));
-				return true;
-			}
-			
-			@Override
-			public boolean onDoubleTapEvent(MotionEvent e) {
-				return false;
-			}
-			
-			@Override
-			public boolean onDoubleTap(MotionEvent e) {
-				return false;
-			}
-		};
-		
-		detector = new GestureDetector(this, listener);
-		detector.setOnDoubleTapListener(gestures);
-		map.addGestureDetector(detector);
 	}
 	
 	
@@ -84,7 +63,8 @@ public class FindLocation extends MapActivity {
 			location.disableMyLocation();
 	}
 	
-	private void selected(GeoPoint point) {
+	@Override
+	public void onMapTap(GeoPoint point) {
 		debugChosen.setText(point.toString());
 	}
 	
