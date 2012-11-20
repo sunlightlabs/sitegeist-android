@@ -1,19 +1,17 @@
 package com.sunlightfoundation.sitegeist.android;
 
-import android.content.Context;
+import java.util.List;
+
 import android.location.Location;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
 import com.sunlightfoundation.sitegeist.android.utils.Utils;
 
 public class FindLocation extends MapActivity implements MyMapView.MapTapListener {
@@ -31,20 +29,25 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
         setContentView(R.layout.find_location);
         
         setupControls();
+        setupMap();
     }
 	
 	private void setupControls() {
+		debugChosen = (TextView) findViewById(R.id.debug_chosen);
+	    debugCurrent = (TextView) findViewById(R.id.debug_current);
+	}
+	
+	private void setupMap() {
 		map = (MyMapView) findViewById(R.id.map);
 		map.setMapTapListener(this);
 		
 		controller = map.getController();
 	    map.setBuiltInZoomControls(true);
 	    
-	    debugChosen = (TextView) findViewById(R.id.debug_chosen);
-	    debugCurrent = (TextView) findViewById(R.id.debug_current);
-	    
 	    initialCenter();
 	    location = new MyLocationOverlay(this, map);
+	    List<Overlay> overlays = map.getOverlays();
+	    overlays.add(location);
 	}
 	
 	

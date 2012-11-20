@@ -8,6 +8,10 @@ import android.view.MotionEvent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
+/** MapView extended with just enough functionality to pass 
+ *  on an event when the map receives a single tap (not a double tap). 
+ */
+
 public class MyMapView extends MapView {
 	public GestureDetector detector;
 	public MapTapListener listener;
