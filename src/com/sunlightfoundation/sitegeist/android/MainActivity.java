@@ -24,10 +24,6 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class MainActivity extends FragmentActivity implements ActionBarUtils.HasActionMenu {
 	public GeoPoint location;
-	private int source;
-	
-	private static int SOURCE_SAVED = 1;
-	private static int SOURCE_NEARBY = 2;
 	
 	private static int RESPONSE_LOCATION = 1;
 	
@@ -47,16 +43,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     private boolean hasLocation() {
     	GeoPoint savedLocation = Utils.savedLocation(this);
     	if (savedLocation != null) {
-    		this.source = SOURCE_SAVED;
     		this.location = savedLocation;
     		return true;
-    	} else {
-    		GeoPoint lastLocation = Utils.lastKnownLocation(this);
-    		if (lastLocation != null) {
-    			this.source = SOURCE_NEARBY;
-    			this.location = lastLocation;
-        		return true;
-    		}
     	}
     	
     	return false;
@@ -81,8 +69,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     
     // will only be run if we have a location, and a source
     public void setupControls() {
-    	String sourceName = source == SOURCE_NEARBY ? "Nearby" : "Saved";
-    	ActionBarUtils.setTitle(this, getResources().getString(R.string.app_name) + " - " + sourceName, null);
+    	ActionBarUtils.setTitle(this, getResources().getString(R.string.app_name), null);
 		
     	ActionBarUtils.setActionButton(this, R.id.action_1, R.drawable.location, new View.OnClickListener() {
 			public void onClick(View v) {
@@ -100,7 +87,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
 		adapter.add("PEOPLE", WebFragment.newInstance("people"));
-		adapter.add("ENVIRONMENT", WebFragment.newInstance("environment"));
+		adapter.add("WEATHER", WebFragment.newInstance("environment"));
 		adapter.add("FUN", WebFragment.newInstance("fun"));
 		adapter.add("HISTORY", WebFragment.newInstance("history"));
 		adapter.add("HOUSING", WebFragment.newInstance("housing"));

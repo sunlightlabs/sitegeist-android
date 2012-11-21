@@ -72,15 +72,44 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 		controller = map.getController();
 	    map.setBuiltInZoomControls(true);
 	    
-	    initialCenter();
 	    location = new MyLocationOverlay(this, map);
 	    selected = new SelectedOverlay(this);
 	    
-
+	    GeoPoint savedLocation = Utils.savedLocation(this);
+	    if (savedLocation != null)
+	    	selected(savedLocation);
+	    else {
+	    	initialCenter();
+			location.runOnFirstFix(new Runnable() {
+			    public void run() {
+			    	GeoPoint myLocation = location.getMyLocation();
+			    	if (myLocation != null) {
+			    		controller.setZoom(15);
+			    		selected(myLocation);
+			    	}
+			    }
+			});
+	    }
 	    
 	    List<Overlay> overlays = map.getOverlays();
 	    overlays.add(location);
 	    overlays.add(selected);
+	}
+	
+	public void selected(GeoPoint point) {
+		selectedPoint = point;
+		controller.animateTo(point);
+	}
+	
+	private void initialCenter() {
+		GeoPoint center = Utils.lastKnownLocation(this);
+	    if (center != null) {
+	    	controller.setZoom(15);
+			selected(center);
+	    } else {
+	    	controller.setZoom(4);
+	    	selected(map.getMapCenter());
+	    }
 	}
 	
 	
@@ -101,20 +130,6 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
 	@Override
 	public void onMapTap(GeoPoint point) {
 		selected(point);
-	}
-	
-	public void selected(GeoPoint point) {
-		selectedPoint = point;
-		controller.animateTo(point);
-	}
-	
-	private void initialCenter() {
-		GeoPoint center = Utils.lastKnownLocation(this);
-	    if (center != null) {
-	    	controller.setZoom(15);
-			controller.setCenter(center);
-	    } else
-	    	controller.setZoom(4);
 	}
 	
 	@Override
