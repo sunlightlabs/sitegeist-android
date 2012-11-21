@@ -76,6 +76,12 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 				findLocation();
 			}
 		});
+    	
+    	ActionBarUtils.setActionButton(this, R.id.action_2, R.drawable.share, new View.OnClickListener() {
+			public void onClick(View v) {
+				sharePane();
+			}
+		});
 		
 		ActionBarUtils.setActionMenu(this, R.menu.main);
     }
@@ -83,6 +89,20 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
     public void showAbout() {
 		FragmentUtils.alertDialog(this, AlertFragment.ABOUT);		
 	}
+    
+    public void sharePane() {
+    	String url = "http://sitegeist.sunlightfoundation.com/share/";
+    	ViewPager pager = (ViewPager) findViewById(R.id.pager);
+    	BasicAdapter adapter = (BasicAdapter) pager.getAdapter();
+    	String title = (String) adapter.getPageTitle(pager.getCurrentItem());
+    	title = title.toLowerCase();
+		if (this.location != null)
+			url += "?cll=" + Utils.geoToLoc(this.location.getLatitudeE6()) + "," + Utils.geoToLoc(this.location.getLongitudeE6()) + "&pane=" + title;
+		Intent intent = new Intent(Intent.ACTION_SEND).setType("text/plain")
+				.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text) + " " + url)
+				.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_email_subject));
+		startActivity(Intent.createChooser(intent, "Share this ad:"));
+    }
 
 	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());

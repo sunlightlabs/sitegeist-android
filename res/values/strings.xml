@@ -15,4 +15,7 @@
     
     <string name="contact_email">sitegeist+android@sunlightfoundation.com</string>
     <string name="contact_subject">Sitegeist feedback</string>
+    
+    <string name="share_text">OMG CHECK THIS OUT:</string>
+    <string name="share_email_subject">WTF EMAIL SUBJECT!</string>
 </resources>
