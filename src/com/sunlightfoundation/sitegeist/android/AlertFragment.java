@@ -47,31 +47,29 @@ public class AlertFragment extends DialogFragment {
 	
 	public Dialog about(LayoutInflater inflater) {
 		View aboutView = inflater.inflate(R.layout.about, null);
-
-		Spanned about1 = Html.fromHtml(
-				"Bill information provided by <a href=\"http://govtrack.us\">GovTrack</a>, " +
-				"through the Library of Congress.  Bill summaries written by the Congressional Research Service.<br/><br/>" +
-				
-				"Votes, committee hearings, and floor updates come from the official " +
-				"<a href=\"http://senate.gov/\">Senate</a> and <a href=\"http://clerk.house.gov/\">House</a> websites.<br/><br/>" +
-				
-				"Legislator and committee information powered by the " + 
-				"<a href=\"http://services.sunlightlabs.com/api/\">Sunlight Labs Congress API</a>.<br/><br/>" + 
-				
-				"News mentions provided by the <a href=\"http://code.google.com/apis/newssearch/v1/\">Google News Search API</a>," +
-				" and Twitter search powered by <a href=\"http://www.winterwell.com/software/jtwitter.php\">JTwitter</a>."
-		);
-		TextView aboutView1 = (TextView) aboutView.findViewById(R.id.about_1);
-		aboutView1.setText(about1);
-		aboutView1.setMovementMethod(LinkMovementMethod.getInstance());
-
+		
 		Spanned about2 = Html.fromHtml(
-				"This app is made by the <a href=\"http://sunlightfoundation.com\">Sunlight Foundation</a>, " +
-				"a non-partisan non-profit dedicated to increasing government transparency through the power of technology."
+				"Sitegeist helps you quickly learn more about your surroundings " +
+				"and draws on free information to showcase what's possible with access to data. " +
+				
+				"The project presents localized information with straightforward infographics so you can " +
+				"get back to enjoying the neighborhood. Sitegeist was created by the Sunlight Foundation " +
+				
+				"with input from <a href=\"http://www.ideo.com/\">IDEO</a> and support from the " + 
+				"<a href=\"http://www.knightfoundation.org/\">John S. and James L. Knight Foundation</a>." 
+				
 		);
 		TextView aboutView2 = (TextView) aboutView.findViewById(R.id.about_2);
 		aboutView2.setText(about2);
 		aboutView2.setMovementMethod(LinkMovementMethod.getInstance());
+
+		Spanned about1 = Html.fromHtml(
+				"<div style=\"text-align:center\"><a href=\"http://sunlightfoundation.com\">[more info link]</a>   " +
+			    "<a href=\"http://sunlightfoundation.com\">[methodology link]</a></div>"
+				);
+		TextView aboutView1 = (TextView) aboutView.findViewById(R.id.about_1);
+		aboutView1.setText(about1);
+		aboutView1.setMovementMethod(LinkMovementMethod.getInstance());
 		
 		return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
 			.setView(aboutView)
