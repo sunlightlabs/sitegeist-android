@@ -152,9 +152,10 @@ public class FindLocation extends MapActivity implements MyMapView.MapTapListene
             if (context.selectedPoint != null) {
 	            Point screenPts = new Point();
 	            mapView.getProjection().toPixels(context.selectedPoint, screenPts);
- 
+	            
+	            final float scale = context.getResources().getDisplayMetrics().density;
 	            Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.marker);            
-	            canvas.drawBitmap(bmp, screenPts.x-40, screenPts.y-63, null);         
+	            canvas.drawBitmap(bmp, screenPts.x - (scale * 16), screenPts.y - (scale * 31), null);         
             }
             return true;
         }
