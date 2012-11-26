@@ -48,29 +48,23 @@ public class AlertFragment extends DialogFragment {
 	public Dialog about(LayoutInflater inflater) {
 		View aboutView = inflater.inflate(R.layout.about, null);
 		
-		Spanned about2 = Html.fromHtml(
-				"Sitegeist helps you quickly learn more about your surroundings " +
-				"and draws on free information to showcase what's possible with access to data. " +
-				
-				"The project presents localized information with straightforward infographics so you can " +
-				"get back to enjoying the neighborhood. Sitegeist was created by the Sunlight Foundation " +
-				
-				"with input from <a href=\"http://www.ideo.com/\">IDEO</a> and support from the " + 
-				"<a href=\"http://www.knightfoundation.org/\">John S. and James L. Knight Foundation</a>." 
-				
+		Spanned aboutText = Html.fromHtml(	 
+				getResources().getString(R.string.about_text)
 		);
-		TextView aboutView2 = (TextView) aboutView.findViewById(R.id.about_2);
-		aboutView2.setText(about2);
-		aboutView2.setMovementMethod(LinkMovementMethod.getInstance());
-
-		Spanned about1 = Html.fromHtml(
-				"<div style=\"text-align:center\"><a href=\"http://sunlightfoundation.com\">[more info link]</a>   " +
-			    "<a href=\"http://sunlightfoundation.com\">[methodology link]</a></div>"
-				);
-		TextView aboutView1 = (TextView) aboutView.findViewById(R.id.about_1);
-		aboutView1.setText(about1);
-		aboutView1.setMovementMethod(LinkMovementMethod.getInstance());
 		
+		Spanned aboutMoreInfo = Html.fromHtml(
+				getResources().getString(R.string.about_more_info)
+				);
+		
+		TextView aboutTextView = (TextView) aboutView.findViewById(R.id.about_text);
+		TextView aboutMoreInfoView = (TextView) aboutView.findViewById(R.id.about_more_info);
+		
+		aboutTextView.setText(aboutText);
+		aboutMoreInfoView.setText(aboutMoreInfo);
+		
+		aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		aboutMoreInfoView.setMovementMethod(LinkMovementMethod.getInstance());
+
 		return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.icon)
 			.setView(aboutView)
 			.setPositiveButton(R.string.about_button, new DialogInterface.OnClickListener() {

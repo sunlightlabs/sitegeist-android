@@ -16,6 +16,20 @@
     <string name="contact_email">sitegeist+android@sunlightfoundation.com</string>
     <string name="contact_subject">Sitegeist feedback</string>
     
-    <string name="share_text">OMG CHECK THIS OUT:</string>
-    <string name="share_email_subject">WTF EMAIL SUBJECT!</string>
+    <string name="share_text">I just learned more about my location using #opendata</string>
+    <string name="share_email_subject">I just learned more about my surroundings using #opendata!</string>
+    
+    <string name="about_text"><![CDATA[
+        "<html>Sitegeist helps you quickly learn more about your surroundings and 
+        draws on free information to showcase what's possible with access to data.<br/><br/>
+        
+        The project presents localized information with straightforward infographics so you can 
+        get back to enjoying the neighborhood.<br/><br/>
+        
+        Sitegeist was created by the Sunlight Foundation with input from 
+        <a href=\"http://www.ideo.com/\">IDEO</a> and support from 
+        the <a href=\"http://www.knightfoundation.org/\">John S. and James L. Knight 
+        Foundation</a>.</html>"]]></string>
+    <string name="about_more_info"><![CDATA[
+        "<a href=\"http://sunlightfoundation.com\">More Info</a>"]]></string>
 </resources>
