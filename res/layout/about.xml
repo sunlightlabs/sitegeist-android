@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_alert"
-    android:orientation="vertical"
-    android:padding="5dp" >
-
-    <LinearLayout
-        android:id="@+id/LinearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
-
+    android:fillViewport="true"
+    >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@color/background_alert"
+	    android:orientation="vertical"
+	    android:padding="5dp" >
+	
+	
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
-            android:src="@drawable/icon" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/page_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+            android:src="@drawable/icon"
+            android:layout_gravity="center_horizontal"
+            />
 
         <TextView
             android:id="@+id/about_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:textColor="@color/text_alert"
             android:textColorHint="@color/text_alert"
             android:textSize="14sp" />
@@ -43,50 +34,40 @@
             android:layout_height="16dp"
             android:layout_gravity="center|center_horizontal"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/text_alert"
             android:textColorHint="@color/text_alert"
             android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/sunlight_logo_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
+	
         <ImageView
             android:id="@+id/sunlight_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:src="@drawable/sunlight" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/partner_logo_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
-
-        <ImageView
-            android:id="@+id/knight_logo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:src="@drawable/knight" />
-
-        <ImageView
-            android:id="@+id/ideo_logo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:src="@drawable/ideo" />
-    </LinearLayout>
-
-</LinearLayout>
+	
+	    <LinearLayout
+	        android:id="@+id/partner_logo_container"
+	        android:orientation="horizontal"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content">
+	
+	        <ImageView
+	            android:id="@+id/knight_logo"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:paddingLeft="5dp"
+	            android:src="@drawable/knight" />
+	
+	        <ImageView
+	            android:id="@+id/ideo_logo"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="bottom"
+	            android:layout_weight="1"
+	            android:src="@drawable/ideo" />
+	    </LinearLayout>
+	
+	</LinearLayout>
+</ScrollView>
