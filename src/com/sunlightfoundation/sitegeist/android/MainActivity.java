@@ -99,7 +99,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		if (this.location != null)
 			url += "?cll=" + Utils.geoToLoc(this.location.getLatitudeE6()) + "," + Utils.geoToLoc(this.location.getLongitudeE6()) + "&pane=" + title;
 		Intent intent = new Intent(Intent.ACTION_SEND).setType("text/plain")
-				.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text) + " " + url)
+				//.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text) + " " + url)
+				.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text))
 				.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_email_subject));
 		startActivity(Intent.createChooser(intent, "Share this:"));
     }
