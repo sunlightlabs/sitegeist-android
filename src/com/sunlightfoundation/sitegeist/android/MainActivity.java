@@ -99,8 +99,8 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		if (this.location != null)
 			url += "?cll=" + Utils.geoToLoc(this.location.getLatitudeE6()) + "," + Utils.geoToLoc(this.location.getLongitudeE6()) + "&pane=" + title;
 		Intent intent = new Intent(Intent.ACTION_SEND).setType("text/plain")
-				//.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text) + " " + url)
-				.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text))
+				.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text) + " " + url)
+				//.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_text))
 				.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_email_subject));
 		startActivity(Intent.createChooser(intent, "Share this:"));
     }
@@ -108,10 +108,10 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
 		adapter.add("PEOPLE", WebFragment.newInstance("people"));
-		adapter.add("WEATHER", WebFragment.newInstance("environment"));
-		adapter.add("FUN", WebFragment.newInstance("fun"));
-		adapter.add("HISTORY", WebFragment.newInstance("history"));
 		adapter.add("HOUSING", WebFragment.newInstance("housing"));
+		adapter.add("FUN", WebFragment.newInstance("fun"));
+		adapter.add("WEATHER", WebFragment.newInstance("environment"));
+		adapter.add("HISTORY", WebFragment.newInstance("history"));
 		
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setOffscreenPageLimit(5);
@@ -119,6 +119,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		
 		TabPageIndicator titleIndicator = (TabPageIndicator) findViewById(R.id.titles);
     	titleIndicator.setViewPager(pager);
+    	titleIndicator.setCurrentItem(0);
     }
 	
 	@Override
