@@ -107,10 +107,10 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	private void setupPager() {
     	BasicAdapter adapter = new BasicAdapter(getSupportFragmentManager());
 		adapter.add("PEOPLE", WebFragment.newInstance("people"));
-		adapter.add("WEATHER", WebFragment.newInstance("environment"));
-		adapter.add("FUN", WebFragment.newInstance("fun"));
-		adapter.add("HISTORY", WebFragment.newInstance("history"));
 		adapter.add("HOUSING", WebFragment.newInstance("housing"));
+		adapter.add("FUN", WebFragment.newInstance("fun"));
+		adapter.add("WEATHER", WebFragment.newInstance("environment"));
+		adapter.add("HISTORY", WebFragment.newInstance("history"));
 		
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setOffscreenPageLimit(5);
@@ -118,6 +118,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		
 		TabPageIndicator titleIndicator = (TabPageIndicator) findViewById(R.id.titles);
     	titleIndicator.setViewPager(pager);
+    	titleIndicator.setCurrentItem(0);
     }
 	
 	@Override
