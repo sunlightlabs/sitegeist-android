@@ -119,7 +119,9 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		
 		TabPageIndicator titleIndicator = (TabPageIndicator) findViewById(R.id.titles);
     	titleIndicator.setViewPager(pager);
-    	titleIndicator.setCurrentItem(0);
+    	if (pager != null) {
+    		titleIndicator.setCurrentItem(0);
+    	}
     }
 	
 	@Override
