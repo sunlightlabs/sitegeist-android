@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 	}
     
     public void sharePane() {
-    	String url = "http://sitegeist.sunlightfoundation.com/share/";
+    	String url = "https://sitegeist.sunlightfoundation.com/share/";
     	ViewPager pager = (ViewPager) findViewById(R.id.pager);
     	BasicAdapter adapter = (BasicAdapter) pager.getAdapter();
     	String title = (String) adapter.getPageTitle(pager.getCurrentItem());
@@ -194,7 +194,7 @@ public class MainActivity extends FragmentActivity implements ActionBarUtils.Has
 		}
 		
 		public String url() {
-			String url = "http://sitegeist.sunlightfoundation.com/api/" + tab + "/?header=0";
+			String url = "https://sitegeist.sunlightfoundation.com/api/" + tab + "/?header=0";
 			MainActivity activity = (MainActivity) getActivity();
 			if (activity.location != null)
 				url += "&cll=" + Utils.geoToLoc(activity.location.getLatitudeE6()) + "," + Utils.geoToLoc(activity.location.getLongitudeE6());
